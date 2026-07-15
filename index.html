@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流萤 · 飞萤扑火</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+    <!-- ═══════════ 导航栏 ═══════════ -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" @click="page='home'">
+                <i class="fas fa-fire"></i> 流萤
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="toggler-icon"><i class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" :class="{active:page==='home'}" @click="page='home'">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" :class="{active:page==='story'}" @click="page='story'">轨迹</a></li>
+                    <li class="nav-item"><a class="nav-link" :class="{active:page==='profile'}" @click="page='profile'">档案</a></li>
+                    <li class="nav-item"><a class="nav-link" :class="{active:page==='gallery'}" @click="page='gallery'">回忆</a></li>
+                    <li class="nav-item"><a class="nav-link" :class="{active:page==='message'}" @click="page='message'">留言</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════ 页面容器 ═══════════ -->
+    <div class="page-wrap">
+
+        <!-- ── 首页 ── -->
+        <div class="page" :class="{active:page==='home'}">
+            <div class="hero">
+                <video autoplay muted loop playsinline class="hero-video" src="assets/video/firefly-bg.mp4"></video>
+                
+                <!-- ★★★ CSS 粒子容器 ★★★ -->
+                <div class="particle-container" id="cssParticles"></div>
+                
+                <div class="hero-inner">
+                    <h1>流 萤</h1>
+                    <div class="tags">
+                        <span>星核猎手</span>
+                        <span>火属性</span>
+                        <span>毁灭命途</span>
+                    </div>
+                    <div class="motto">「飞萤扑火，向死而生」</div>
+                    <br>
+                    <a class="btn-explore" @click="page='story'">
+                        <i class="fas fa-chevron-down"></i> 探索她的故事
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── 轨迹 ── -->
+        <div class="page" :class="{active:page==='story'}">
+            <div class="sec-title">✦ 成长 <span>轨迹</span></div>
+            <div class="sec-line"></div>
+
+            <div class="story-card">
+                <div class="story-num">
+                    <img src="assets/images/story-1.png" alt="诞生" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+                </div>
+                <div class="story-body">
+                    <h4>诞生 ·「兵器」</h4>
+                    <div class="kw">格拉默铁骑 / AR-26710 / 失熵症</div>
+                    <p>她是为战斗而生的基因改造产物。作为格拉默铁骑的余裔，从诞生起就被赋予了「兵器」的使命。身患失熵症的她，生命如萤火般短暂而脆弱。</p>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <div class="story-num">
+                    <img src="assets/images/story-2.webp" alt="旅途" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+                </div>
+                <div class="story-body">
+                    <h4>旅途 ·「少女」</h4>
+                    <div class="kw">星核猎手 </div>
+                    <p>她接受了“命运的奴隶”艾利欧的邀请加入星核猎手后，在匹诺康尼的梦境中第一次体验到了「活着」的感觉——天台上的约定、橡木蛋糕卷的甜、那些作为一个少女平凡而珍贵的日常。</p>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <div class="story-num">
+                    <img src="assets/images/story-3.png" alt="觉醒" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+                </div>
+                <div class="story-body">
+                    <h4>觉醒 ·「自我」</h4>
+                    <div class="kw">为「自我」而活 / 飞萤扑火，向死而生</div>
+                    <p>在匹诺康尼以“流萤”身份去感受，经历三次死亡后挣脱兵器宿命。她直面绝症与牺牲，领悟生命意义，最终选择为自我而活，不再被命运奴役，她开始追寻属于自己的梦。即使生命短暂，也要燃得比太阳更亮，照亮他人。</p>
+                </div>
+            </div>
+
+            <div class="story-quote">「会找到的，属于我的梦…」</div>
+        </div>
+
+        <!-- ── 档案 ── -->
+        <div class="page" :class="{active:page==='profile'}">
+            <div class="sec-title">✦ 角色 <span>档案</span></div>
+            <div class="sec-line"></div>
+
+            <h5 class="group-title"><i class="fas fa-id-card"></i> 基础信息</h5>
+            <div class="info-grid">
+                <div class="info-card"><div class="lbl">阵营</div><div class="val">星核猎手</div></div>
+                <div class="info-card"><div class="lbl">属性</div><div class="val">火</div></div>
+                <div class="info-card"><div class="lbl">命途</div><div class="val">毁灭</div></div>
+                <div class="info-card"><div class="lbl">悬赏金</div><div class="val">97亿2300万</div></div>
+                <div class="info-card"><div class="lbl">喜好</div><div class="val">橡木蛋糕卷 / 筑梦边境天台</div></div>
+                <div class="info-card"><div class="lbl">中配 / 日配</div><div class="val">宋媛媛 / 楠木灯</div></div>
+            </div>
+
+            <h5 class="group-title"><i class="fas fa-bolt"></i> 技能机制</h5>
+            <div class="skill-card">
+                <div class="skill-ico"><img src="assets/images/skill-1.png" alt="普攻图标"></div>
+                <div class="skill-info">
+                    <h5>指令·闪焰推进</h5>
+                    <span class="stype">普攻</span>
+                    <p class="sdesc">对指定敌方单体造成等同于装甲「萨姆」50%/100%攻击力的火属性伤害。
+                        释放大招后:回复等同于自身20%生命上限的生命值。对指定敌方单体造成等同于装甲「萨姆」100%/200%攻击力的火属性伤害。
+                    </p>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-ico"><img src="assets/images/skill-2.png" alt="战技图标"></div>
+                <div class="skill-info">
+                    <h5>指令·天火轰击</h5>
+                    <span class="stype">战技</span>
+                    <p class="sdesc">消耗等同于自身生命上限40%的生命值固定恢复等同于自身50%/60%能量上限的能量，对指定敌方单体造成等同于装甲「萨姆」100%/200%攻击力的火属性伤害。若当前生命值不足，施放战技时装甲「萨姆」的当前生命值降至1点。使自身下一次行动提前25%。
+                        释放大招后，回复等同于自身25%生命上限的生命值。为指定敌方单体添加火属性弱点，持续2回合。对该目标造成等同于装甲「萨姆」（0.2*击破特攻+100.0%/200.0%）攻击力的火属性伤害。同时对其相邻目标造成等同于装甲「萨姆」（0.1*击破特攻+50.0%/100.0%）攻击力的火属性伤害。最多计算360%击破特攻。
+                    </p>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-ico"><img src="assets/images/skill-3.png" alt="终结技图标"></div>
+                <div class="skill-info">
+                    <h5>完全燃烧</h5>
+                    <span class="stype">终结技</span>
+                    <p class="sdesc">进入「完全燃烧」状态，自身行动提前100%并获得强化普攻和强化战技。「完全燃烧」状态下速度提高30/60点，且施放强化普攻、强化战技时自身弱点击破效率提高50%、使敌方目标受到装甲「萨姆」造成的击破伤害提高10.0%/20.0%，持续至本次攻击结束。
+行动序列上出现「完全燃烧」倒计时，倒计时回合开始时装甲「萨姆」解除「完全燃烧」状态，倒计时固定拥有70速度。
+「完全燃烧」状态下装甲「萨姆」无法施放终结技。</p>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-ico"><img src="assets/images/skill-4.png" alt="天赋图标"></div>
+                <div class="skill-info">
+                    <h5>机制</h5>
+                    <span class="stype">天赋</span>
+                    <p class="sdesc">生命值越低受到的伤害越低，生命值小于等于20%时减伤效果达到最大值，最多降低20%/40%。「完全燃烧」状态下减伤效果维持最大值，效果抵抗提高10%/30%。
+战斗开始时若能量不足50%则使其恢复至50%。当能量恢复至上限时解除自身所有负面效果。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── 图库（3D 圆柱画廊） ── -->
+        <div class="page" :class="{active:page==='gallery'}" id="gallery">
+            <div class="sec-title">✦ 记忆 <span>片段</span></div>
+            <div class="sec-line"></div>
+            <div id="gallery-3d-container"></div>
+            <p style="text-align:center;color:var(--text-dim);font-size:0.8rem;margin-top:16px;opacity:0.5;">
+                <i class="fas fa-mouse"></i> 拖拽旋转 · 悬停预览 · 点击查看记忆
+            </p>
+        </div>
+
+        <!-- ── 留言板 ── -->
+        <div class="page" :class="{active:page==='message'}">
+            <div class="sec-title">✦ 传达 <span>心意</span></div>
+            <div class="sec-line"></div>
+
+            <form class="msg-form" @submit.prevent="addMsg">
+                <input type="text" v-model="nickname" placeholder="你的名字（选填）" maxlength="20">
+                <textarea v-model="content" placeholder="写下你想对流萤说的话…" maxlength="500" required></textarea>
+                <div class="msg-form-btns">
+                    <button class="btn-send" type="submit"><i class="fas fa-paper-plane"></i> 留下印记</button>
+                    <button class="btn-clear" type="button" @click="clearAll"><i class="fas fa-broom"></i> 清空留言</button>
+                </div>
+            </form>
+
+            <div class="msg-count">共 {{ messages.length }} 条留言</div>
+
+            <div v-if="messages.length===0" class="msg-empty">
+                <i class="fas fa-feather"></i>
+                <p>还没有留言，来做第一个留下印记的人吧 ✦</p>
+            </div>
+
+            <div v-for="(msg, i) in messages" :key="msg.id" class="msg-item">
+                <div class="msg-left">
+                    <span class="msg-user">{{ msg.nickname || '匿名开拓者' }}</span>
+                    <span class="msg-time">{{ msg.time }}</span>
+                    <div class="msg-text">{{ msg.content }}</div>
+                </div>
+                <button class="msg-del" @click="delMsg(i)" title="删除">✕</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════ 页脚 ═══════════ -->
+    <footer>
+        <i class="fas fa-star"></i> 飞萤扑火 · 向死而生 <i class="fas fa-star"></i><br>
+        <span class="footer-info">WEB应用开发 · 结课作品 · 流萤主题展示页</span>
+        <br><span class="footer-disclaimer">素材来源于网络，仅用于课程展示</span>
+    </footer>
+
+    <!-- ═══════════ 音乐按钮 ═══════════ -->
+    <button class="music-btn paused" id="musicBtn" title="播放背景音乐">
+        <span id="musicIcon">🔇</span>
+    </button>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="assets/music/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+
+<!-- Three.js 核心库 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- 页面脚本 -->
+<script src="js/fireflies.js"></script>
+<script src="js/music.js"></script>
+<script src="js/app.js"></script>
+
+<!-- 3D 圆柱画廊 -->
+<script src="js/gallery-3d.js"></script>
+
+</body>
+</html>
