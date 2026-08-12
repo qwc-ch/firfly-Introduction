@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+    --color-bg: #080c14;
+    --color-card: #0f1520;
+    --color-gold: #00d4aa;
+    --color-gold-light: #66e8cc;
+    --color-gold-deep: #008f7a;
+    --color-text: #e0ddd8;
+    --color-dim: rgba(224, 221, 216, 0.55);
+    --color-dim-strong: rgba(224, 221, 216, 0.75);
+
+    --font-sans: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+}
+
+/* ── 滚动条 ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0, 212, 170, 0.3); border-radius: 10px; }
+
+/* ── 渐变文字 ── */
+.text-grad {
+    background: linear-gradient(135deg, #66e8cc 0%, #00d4aa 50%, #008f7a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-grad-light {
+    background: linear-gradient(180deg, #66e8cc 0%, #00d4aa 40%, #008f7a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ── 导航链接下划线 ── */
+.nav-line {
+    position: relative;
+    transition: color 0.3s;
+}
+.nav-line::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, #00d4aa, #66e8cc);
+    transition: width 0.3s;
+}
+.nav-line:hover::after,
+.nav-line.active::after { width: 100%; }
+
+/* ── 首页标题 ── */
+.hero-title {
+    cursor: default;
+    user-select: none;
+}
+
+/* ── 萤火虫粒子 ── */
+.fireflies {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.firefly {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f8d98a, #f0c060, transparent);
+    box-shadow: 0 0 20px rgba(248, 217, 138, 0.6), 0 0 60px rgba(248, 217, 138, 0.2);
+    will-change: transform, opacity;
+}
+
+/* ── 顶部夜空（hero） ── */
+.hero-sky {
+    z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        rgba(8, 12, 20, 0.96) 0%,
+        rgba(8, 12, 20, 0.72) 22%,
+        rgba(8, 12, 20, 0.35) 45%,
+        transparent 72%
+    );
+}
+
+.hero-sky .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #eaf6ff;
+    box-shadow: 0 0 6px 1px rgba(234, 246, 255, 0.65);
+    opacity: 0.8;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.7); }
+    50% { opacity: 0.95; transform: scale(1.25); }
+}
+
+/* ── 输入框 ── */
+.input-focus:focus {
+    outline: none;
+    border-color: #00d4aa !important;
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.08);
+}
+
+/* ── 光标统一 ── */
+* { cursor: default !important; }
+.pointer { cursor: pointer !important; }
+input, textarea { cursor: text !important; }
+
+/* ── 隐藏滚动条（画廊轨道） ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── 组件内部滚动条 ── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 212, 170, 0.35); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(0, 212, 170, 0.35) transparent; }
