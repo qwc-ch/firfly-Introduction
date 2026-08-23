@@ -38,18 +38,25 @@
         return Math.max(0, Math.min(Math.round(track.scrollLeft / (cardWidth + gap)), cards.length - 1));
     }
 
-    function updateActive() {
+    // 用 quickTo 缓存每张卡的缩放/透明度动画，避免滚动时重复创建 tween
+    let scaleQuick = [];
+    let opacityQuick = [];
+
+    function initQuickSetters() {
+        scaleQuick = cards.map((card) => gsap.quickTo(card, 'scale', { duration: 0.5, ease: 'power3.out' }));
+        opacityQuick = cards.map((card) => gsap.quickTo(card, 'opacity', { duration: 0.5, ease: 'power3.out' }));
+    }
+
+    function updateActive(force = false) {
         if (!track || !cardWidth) return;
         const idx = getIndex();
+        if (!force && idx === activeIndex) return; // 活动卡未变就不重动画
         if (idx !== activeIndex) activeIndex = idx;
         cards.forEach((card, i) => {
-            gsap.to(card, {
-                scale: i === idx ? 1 : GALLERY_INACTIVE_SCALE,
-                opacity: i === idx ? 1 : 0.55,
-                zIndex: i === idx ? 2 : 1,
-                duration: 0.5,
-                ease: 'power3.out'
-            });
+            const active = i === idx;
+            card.style.zIndex = active ? 2 : 1;
+            scaleQuick[i]?.(active ? 1 : GALLERY_INACTIVE_SCALE);
+            opacityQuick[i]?.(active ? 1 : 0.55);
         });
     }
 
@@ -101,13 +108,22 @@
             });
             gsap.fromTo(cards, { x: 90, opacity: 0 }, {
                 x: 0, opacity: 1, duration: 0.75, ease: 'power3.out', stagger: 0.09,
-                onComplete: () => updateActive()
+                onComplete: () => updateActive(true)
             });
         }, c);
 
+        initQuickSetters();
         measure();
         startAuto();
-        const onScroll = () => updateActive();
+        // rAF 节流：滚动事件高频触发，每帧只更新一次
+        let scrollRaf = 0;
+        const onScroll = () => {
+            if (scrollRaf) return;
+            scrollRaf = requestAnimationFrame(() => {
+                scrollRaf = 0;
+                updateActive();
+            });
+        };
         track.addEventListener('scroll', onScroll, { passive: true });
 
         const onWheel = (e) => {
@@ -129,6 +145,7 @@
         ro.observe(c);
 
         cleanup = () => {
+            if (scrollRaf) cancelAnimationFrame(scrollRaf);
             stopAuto();
             ro.disconnect();
             track.removeEventListener('scroll', onScroll);

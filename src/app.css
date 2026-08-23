@@ -79,8 +79,9 @@ body {
     position: absolute;
     border-radius: 50%;
     background: radial-gradient(circle, #f8d98a, #f0c060, transparent);
-    box-shadow: 0 0 20px rgba(248, 217, 138, 0.6), 0 0 60px rgba(248, 217, 138, 0.2);
-    will-change: transform, opacity;
+    box-shadow: 0 0 14px rgba(248, 217, 138, 0.5);
+    transform: translateZ(0);
+    contain: strict;
 }
 
 /* ── 顶部夜空（hero） ── */

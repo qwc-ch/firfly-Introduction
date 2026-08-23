@@ -6,7 +6,7 @@
 
     onMount(() => {
         const ctx = gsap.context(() => {
-            for (let i = 0; i < 35; i++) {
+            for (let i = 0; i < 20; i++) {
                 const el = document.createElement('div');
                 el.className = 'firefly';
                 el.style.left = gsap.utils.random(2, 98) + '%';
@@ -25,6 +25,7 @@
                     y: () => `+=${gsap.utils.random(-100, 100)}`,
                     scale: gsap.utils.random(0.5, 1.8),
                     opacity: gsap.utils.random(0.2, 1),
+                    force3D: true,
                     duration: gsap.utils.random(6, 14),
                     ease: 'sine.inOut',
                     repeat: -1,
