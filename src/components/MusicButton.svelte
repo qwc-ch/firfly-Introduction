@@ -253,18 +253,31 @@
 
 <!-- 封面按钮 -->
 <button
-    class="pointer fixed bottom-6 left-6 z-[1000] w-14 h-14 rounded-full overflow-hidden transition-all duration-300"
-    style="background:rgba(8,12,20,0.9);border:2px solid {playing || open ? '#00d4aa' : 'rgba(0,212,170,0.25)'};opacity:{loading ? 0.7 : 1};box-shadow:0 0 20px rgba(0,212,170,{playing ? 0.25 : 0.1});"
+    class="disc-fx-wrap pointer fixed bottom-6 left-6 z-[1000] w-14 h-14 rounded-full transition-all duration-300 {playing ? 'fx-active' : ''}"
+    style="opacity:{loading ? 0.7 : 1};"
     title={songs[index] ? `${songs[index].name} - ${songs[index].artist}` : '背景音乐'}
     data-testid="music-btn"
     onclick={toggleCard}
 >
+    <!-- 特效层:旋转光环 / 辉光 / 环绕粒子 -->
+    <span class="disc-fx" aria-hidden="true">
+        <span class="fx-ring"></span>
+        <span class="fx-ring fx-ring-2"></span>
+        <span class="fx-glow"></span>
+        <span class="fx-orbit"><i></i></span>
+        <span class="fx-orbit fx-orbit-rev"><i></i></span>
+    </span>
     {#if songs.length}
-        <div class="w-full h-full rounded-full overflow-hidden" bind:this={btnDisc}>
-            <img src={songs[index]?.pic || LOCAL_COVER_URL} alt="音乐封面" class="w-full h-full object-cover rounded-full" />
+        <div
+            class="relative w-full h-full rounded-full overflow-hidden"
+            style="background:rgba(8,12,20,0.9);border:2px solid {playing || open ? '#00d4aa' : 'rgba(0,212,170,0.25)'};box-shadow:0 0 20px rgba(0,212,170,{playing ? 0.25 : 0.1});"
+        >
+            <div class="w-full h-full rounded-full overflow-hidden" bind:this={btnDisc}>
+                <img src={songs[index]?.pic || LOCAL_COVER_URL} alt="音乐封面" class="w-full h-full object-cover rounded-full" />
+            </div>
         </div>
     {:else}
-        <div class="w-full h-full flex items-center justify-center text-gold text-xl">{loading ? '…' : '🎵'}</div>
+        <div class="relative w-full h-full rounded-full flex items-center justify-center text-gold text-xl" style="background:rgba(8,12,20,0.9);border:2px solid rgba(0,212,170,0.25);">{loading ? '…' : '🎵'}</div>
     {/if}
 </button>
 
@@ -293,9 +306,16 @@
 
         <!-- 顶部:封面 + 信息 -->
         <div class="flex items-center gap-3 mb-3">
-            <div class="mc-disc shrink-0 w-12 h-12 rounded-full overflow-hidden border border-white/10">
-                <div class="w-full h-full rounded-full overflow-hidden" bind:this={cardDisc}>
-                    <img src={songs[index]?.pic || LOCAL_COVER_URL} alt="封面" class="w-full h-full object-cover rounded-full" />
+            <div class="disc-fx-wrap mc-disc shrink-0 w-12 h-12 rounded-full {playing ? 'fx-active' : ''}">
+                <span class="disc-fx" aria-hidden="true">
+                    <span class="fx-ring"></span>
+                    <span class="fx-glow"></span>
+                    <span class="fx-orbit"><i></i></span>
+                </span>
+                <div class="relative w-full h-full rounded-full overflow-hidden border border-white/10">
+                    <div class="w-full h-full rounded-full overflow-hidden" bind:this={cardDisc}>
+                        <img src={songs[index]?.pic || LOCAL_COVER_URL} alt="封面" class="w-full h-full object-cover rounded-full" />
+                    </div>
                 </div>
             </div>
             <div class="flex-1 min-w-0">
@@ -388,3 +408,104 @@
         {/if}
     </div>
 {/if}
+
+<style>
+    /* ── 封面环绕特效 ── */
+    .disc-fx-wrap {
+        isolation: isolate;
+    }
+    .disc-fx-wrap .disc-fx {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: -1;
+    }
+    .disc-fx-wrap .disc-fx > span {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+    }
+
+    /* 旋转渐变光环 */
+    .fx-ring {
+        padding: 2px;
+        inset: -3px;
+        background: conic-gradient(
+            from 0deg,
+            transparent 0%,
+            rgba(0, 212, 170, 0.9) 12%,
+            transparent 26%,
+            transparent 50%,
+            rgba(240, 180, 80, 0.8) 62%,
+            transparent 78%
+        );
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        mask-composite: exclude;
+        animation: fx-spin 4s linear infinite;
+        opacity: 0.55;
+    }
+    .fx-ring-2 {
+        inset: -7px;
+        padding: 1px;
+        background: conic-gradient(from 180deg, transparent 0%, rgba(0, 212, 170, 0.5) 15%, transparent 30%);
+        animation: fx-spin-rev 7s linear infinite;
+        opacity: 0.35;
+    }
+
+    /* 呼吸辉光 */
+    .fx-glow {
+        inset: -6px;
+        background: radial-gradient(circle, rgba(0, 212, 170, 0.35) 40%, transparent 70%);
+        filter: blur(6px);
+        animation: fx-pulse 2.4s ease-in-out infinite;
+    }
+
+    /* 环绕粒子 */
+    .fx-orbit {
+        inset: -5px;
+        animation: fx-spin 6s linear infinite;
+    }
+    .fx-orbit i {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 4px;
+        height: 4px;
+        margin-left: -2px;
+        border-radius: 50%;
+        background: #00d4aa;
+        box-shadow: 0 0 6px 1px rgba(0, 212, 170, 0.9);
+    }
+    .fx-orbit-rev {
+        animation: fx-spin-rev 9s linear infinite;
+    }
+    .fx-orbit-rev i {
+        top: auto;
+        bottom: 0;
+        background: #f0b450;
+        box-shadow: 0 0 6px 1px rgba(240, 180, 80, 0.9);
+    }
+
+    /* 暂停播放时静态低亮度,播放时全亮 */
+    .disc-fx-wrap:not(.fx-active) .disc-fx > span {
+        animation-play-state: paused;
+        opacity: 0.18;
+    }
+
+    @keyframes fx-spin {
+        to { transform: rotate(360deg); }
+    }
+    @keyframes fx-spin-rev {
+        to { transform: rotate(-360deg); }
+    }
+    @keyframes fx-pulse {
+        0%, 100% { opacity: 0.35; transform: scale(0.95); }
+        50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .disc-fx-wrap .disc-fx > span { animation: none; }
+    }
+</style>
